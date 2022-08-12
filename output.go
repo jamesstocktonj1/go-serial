@@ -14,5 +14,5 @@ type SerialStream struct {
 
 
 func NewSerialStream(portName string, portColor color.Attribute) *SerialStream  {
-	return &SerialStream { portColor, "COM_X" }
+	return &SerialStream { portColor, portName }
 }
