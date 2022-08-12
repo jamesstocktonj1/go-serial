@@ -5,9 +5,9 @@ import (
 )
 
 
-const portColors := [4]
+//const portColors := [4]
 
 
-func (index int) *Color {
+func getColorStream(index int) *color.Color {
 	return color.New(color.FgCyan).Add(color.Underline)
 }
