@@ -2,8 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/fatih/color"
+	"github.com/jamesstockonj1/go-serial/output"
 )
 
 func main() {
-	fmt.Println("Hello World!")
+	c := getColorStream(0)
+	c.Println("Hello World!")
 }
