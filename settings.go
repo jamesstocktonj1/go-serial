@@ -8,4 +8,5 @@ var (
 	parity *string
 	verbose *bool
 	listPorts *bool
+	defaultPort *bool
 )

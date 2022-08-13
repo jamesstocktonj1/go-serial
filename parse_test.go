@@ -40,6 +40,10 @@ func TestHandleCommandParsing(t *testing.T) {
 		if *listPorts != false {
 			t.Errorf("default list port value expected false but got %t", *listPorts)
 		}
+
+		if *defaultPort != false {
+			t.Errorf("default port select flag value expected false but got %t", *defaultPort)
+		}
 	})
 
 
@@ -89,6 +93,13 @@ func TestHandleCommandParsing(t *testing.T) {
 		testFlagSet.Parse([]string{"-ls"})
 		if *listPorts != true {
 			t.Errorf("expected port list value true but got %t", *listPorts)
+		}
+	})
+
+	t.Run("DefaultTest", func(t *testing.T) {
+		testFlagSet.Parse([]string{"-d"})
+		if *listPorts != true {
+			t.Errorf("expected port select flag value true but got %t", *listPorts)
 		}
 	})
 }

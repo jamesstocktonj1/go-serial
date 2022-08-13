@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"flag"
 )
 
@@ -18,6 +19,7 @@ func HandleCommandParsing() *flag.FlagSet {
 
 	verbose = flagSet.Bool("v", false, "verbose output e.g. connect/disconnect")
 	listPorts = flagSet.Bool("ls", false, "list available ports")
+	defaultPort = flagSet.Bool("d", false, "select Default Serial Port")
 
 	return flagSet
 }
