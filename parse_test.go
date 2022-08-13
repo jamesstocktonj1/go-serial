@@ -1,8 +1,8 @@
 package main
 
 import (
-	"testing"
 	"os"
+	"testing"
 )
 
 func TestHandleCommandParsing(t *testing.T) {
@@ -17,7 +17,7 @@ func TestHandleCommandParsing(t *testing.T) {
 		if *port != "COMX" {
 			t.Errorf("default port value expected COMX but got %s", *port)
 		}
-		
+
 		if *baud != 9600 {
 			t.Errorf("default baud value expected 9600 but got %d", *baud)
 		}
@@ -46,7 +46,6 @@ func TestHandleCommandParsing(t *testing.T) {
 			t.Errorf("default port select flag value expected false but got %t", *defaultPort)
 		}
 	})
-
 
 	t.Run("PortTest", func(t *testing.T) {
 		testFlagSet.Parse([]string{"-com", "COM5"})
@@ -105,7 +104,6 @@ func TestHandleCommandParsing(t *testing.T) {
 	})
 }
 
-
 func TestParseParity(t *testing.T) {
 
 	*parity = "Even"
@@ -126,7 +124,7 @@ func TestParseComPort(t *testing.T) {
 	// linux
 	*port = "/dev/ttyUSB0"
 
-	//windows 
+	//windows
 	if os.Geteuid() == -1 {
 		*port = "COM5"
 	}
@@ -136,11 +134,10 @@ func TestParseComPort(t *testing.T) {
 		t.Errorf("expected %s to be a valid Serial Port", *port)
 	}
 
-
 	// linux
 	*port = "/dev/ttx"
 
-	//windows 
+	//windows
 	if os.Geteuid() == -1 {
 		*port = "COXX"
 	}

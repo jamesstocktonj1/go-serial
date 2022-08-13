@@ -1,11 +1,10 @@
 package main
 
 import (
-	"os"
 	"flag"
+	"os"
 	"strings"
 )
-
 
 func HandleCommandParsing() *flag.FlagSet {
 
@@ -24,7 +23,6 @@ func HandleCommandParsing() *flag.FlagSet {
 
 	return flagSet
 }
-
 
 func ParseComPort() bool {
 

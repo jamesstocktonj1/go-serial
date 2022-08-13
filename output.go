@@ -7,13 +7,11 @@ import (
 
 type SerialStream struct {
 	serialColor color.Attribute
-	serialName string
+	serialName  string
 }
 
-
-
-func NewSerialStream(portName string, portColor color.Attribute) SerialStream  {
-	return SerialStream { portColor, portName }
+func NewSerialStream(portName string, portColor color.Attribute) SerialStream {
+	return SerialStream{portColor, portName}
 }
 
 func FormatSerialName(serial SerialStream) string {
@@ -23,8 +21,6 @@ func FormatSerialName(serial SerialStream) string {
 func FormatEndLine() string {
 	return "\n"
 }
-
-
 
 func PrintSimple(data string) {
 	fmt.Print(data)
