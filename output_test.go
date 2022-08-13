@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/fatih/color"
-	"testing"
-	"strings"
 	"os"
+	"strings"
+	"testing"
 )
 
 func TestNewSerialStream(t *testing.T) {
@@ -58,13 +58,11 @@ func TestPrint(t *testing.T) {
 	}
 }
 
-
 func TestLoggingVerbose(t *testing.T) {
 
 	if testing.Verbose() {
 
 		PrintLogging("Hello World!")
-
 
 		testColor := color.FgRed
 		testName := "COMX"
