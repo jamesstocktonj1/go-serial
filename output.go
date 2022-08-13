@@ -28,10 +28,12 @@ func PrintSimple(data string) {
 }
 
 func PrintFormat(data string, serial SerialStream) {
-	col := color.New(serial.serialColor)
 	forName := FormatSerialName(serial)
 
-	col.Print(forName)
+	color.Set(serial.serialColor)
+	fmt.Print(forName)
+
+	color.Unset()
 	fmt.Print(" ")
 	fmt.Print(data)
 	fmt.Print(FormatEndLine())
