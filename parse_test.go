@@ -2,6 +2,7 @@ package main
 
 import (
 	"testing"
+	"os"
 )
 
 func TestHandleCommandParsing(t *testing.T) {
@@ -102,4 +103,50 @@ func TestHandleCommandParsing(t *testing.T) {
 			t.Errorf("expected port select flag value true but got %t", *listPorts)
 		}
 	})
+}
+
+
+func TestParseParity(t *testing.T) {
+
+	*parity = "Even"
+	testResult := ParseParity()
+	if testResult != true {
+		t.Errorf("expected Even to be a valid parity")
+	}
+
+	*parity = "Bad"
+	testResult = ParseParity()
+	if testResult != false {
+		t.Errorf("expected Bad to be an invalid parity")
+	}
+}
+
+func TestParseComPort(t *testing.T) {
+
+	// linux
+	*port = "/dev/ttyUSB0"
+
+	//windows 
+	if os.Geteuid() == -1 {
+		*port = "COM5"
+	}
+
+	testResult := ParseComPort()
+	if testResult != true {
+		t.Errorf("expected %s to be a valid Serial Port", *port)
+	}
+
+
+	// linux
+	*port = "/dev/ttx"
+
+	//windows 
+	if os.Geteuid() == -1 {
+		*port = "COXX"
+	}
+
+	testResult = ParseComPort()
+	if testResult != false {
+		t.Errorf("expected %s to be a valid Serial Port", *port)
+	}
 }

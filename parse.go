@@ -1,14 +1,15 @@
 package main
 
 import (
-	"fmt"
+	"os"
 	"flag"
+	"strings"
 )
 
 
 func HandleCommandParsing() *flag.FlagSet {
 
-	flagSet := flag.NewFlagSet("Example FlagSet", flag.ContinueOnError)
+	flagSet := flag.NewFlagSet("Go Serial", flag.ContinueOnError)
 
 	port = flagSet.String("com", "COMX", "select Serial Port")
 	baud = flagSet.Int("baud", 9600, "select Baud Rate")
@@ -25,10 +26,29 @@ func HandleCommandParsing() *flag.FlagSet {
 }
 
 
-func ParseComPort() {
+func ParseComPort() bool {
 
+	// linux
+	portFormat := "/dev/tty"
+
+	// windows
+	if os.Geteuid() == -1 {
+		portFormat = "COM"
+	}
+
+	return strings.HasPrefix(*port, portFormat)
 }
 
-func ParseParity() {
+func ParseParity() bool {
 
+	var parityValues = [5]string{"None", "Odd", "Even", "Mark", "Space"}
+
+	for _, p := range parityValues {
+
+		if *parity == p {
+			return true
+		}
+	}
+
+	return false
 }
