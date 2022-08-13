@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
-	"flag"
+	"os"
+	//"flag"
 )
 
 func main() {
 
-	HandleCommandParsing()
-	flag.Parse()
+	flagSet := HandleCommandParsing()
+	flagSet.Parse(os.Args[1:])
 
 	fmt.Println(*port)
 }
