@@ -10,7 +10,8 @@ func HandleCommandParsing() *flag.FlagSet {
 
 	flagSet := flag.NewFlagSet("Go Serial", flag.ContinueOnError)
 
-	port = flagSet.String("com", "COMX", "select Serial Port")
+	port = new(string)
+	*port = "COMX"
 	baud = flagSet.Int("baud", 9600, "select Baud Rate")
 
 	dataBits = flagSet.Int("data", 8, "select number of data bits")
