@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/fatih/color"
-	"testing"
-	"strings"
 	"os"
+	"strings"
+	"testing"
 )
 
 func TestNewSerialStream(t *testing.T) {
@@ -59,21 +59,21 @@ func TestPrintVerbose(t *testing.T) {
 
 func TestPrint(t *testing.T) {
 
-	defaultStdout := os.Stdout
-
 	testInput, testOutput, _ := os.Pipe()
+
+	defaultStdout := os.Stdout
 	os.Stdout = testOutput
+
 	testData := make([]byte, 25)
 
 	t.Run("SimpleTest", func(t *testing.T) {
 		PrintSimple("Hello World!")
-		
+
 		testInput.Read(testData)
 		if !strings.Contains(string(testData), "Hello World!\n") {
 			t.Errorf("expect Hello World! but got %s", testData)
 		}
 	})
-	
 
 	testColor := color.FgRed
 	testName := "COMX"
