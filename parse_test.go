@@ -147,6 +147,6 @@ func TestParseComPort(t *testing.T) {
 
 	testResult = ParseComPort()
 	if testResult != false {
-		t.Errorf("expected %s to be a valid Serial Port", *port)
+		t.Errorf("expected %s to not be a valid Serial Port", *port)
 	}
 }
