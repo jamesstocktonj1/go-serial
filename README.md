@@ -8,13 +8,10 @@ This is a lightweight command line based serial console. It is based around Go p
 Usage of Go Serial:
   -baud int
         select Baud Rate (default 9600)
-  -com string
-        select Serial Port (default "COMX")
   -d    select Default Serial Port
   -data int
         select number of data bits (default 8)
-  -ls
-        list available ports
+  -ls   list available ports
   -parity string
         select parity type [None, Odd Even, Mark, Space] (default "None")
   -stop int
