@@ -38,3 +38,22 @@ func PrintFormat(data string, serial SerialStream) {
 	fmt.Print(data)
 	fmt.Print(FormatEndLine())
 }
+
+func PrintLogging(log string) {
+
+	color.Set(color.FgYellow)
+	fmt.Print("[log]  ")
+
+	color.Unset()
+	fmt.Println(log)
+}
+
+func PrintSerialLogging(log string, serial SerialStream) {
+	forName := FormatSerialName(serial)
+
+	color.Set(color.FgYellow)
+	fmt.Printf("%s ", forName)
+
+	color.Unset()
+	fmt.Println(log)
+}
