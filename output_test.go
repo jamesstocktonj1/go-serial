@@ -39,10 +39,9 @@ func TestFormatEndLine(t *testing.T) {
 
 }
 
-func TestPrint(t *testing.T) {
+func TestPrintVerbose(t *testing.T) {
 
 	if testing.Verbose() {
-
 		PrintSimple("Hello World!")
 
 		testColor := color.FgRed
@@ -56,6 +55,40 @@ func TestPrint(t *testing.T) {
 		PrintFormat("Hello World!", testStream)
 		PrintFormat("Hello World!", testStream2)
 	}
+}
+
+func TestPrint(t *testing.T) {
+
+	testInput, testOutput, _ := os.Pipe()
+
+	defaultStdout := os.Stdout
+	os.Stdout = testOutput
+
+	testData := make([]byte, 25)
+
+	t.Run("SimpleTest", func(t *testing.T) {
+		PrintSimple("Hello World!")
+
+		testInput.Read(testData)
+		if !strings.Contains(string(testData), "Hello World!\n") {
+			t.Errorf("expect Hello World! but got %s", testData)
+		}
+	})
+
+	testColor := color.FgRed
+	testName := "COMX"
+	testStream := NewSerialStream(testName, testColor)
+
+	t.Run("FormatTest", func(t *testing.T) {
+		PrintFormat("Hello World!", testStream)
+
+		testInput.Read(testData)
+		if !strings.Contains(string(testData), "[COMX] Hello World!\n") {
+			t.Errorf("expect [COMX] Hello World! but got %s", testData)
+		}
+	})
+
+	os.Stdout = defaultStdout
 }
 
 func TestLoggingVerbose(t *testing.T) {
