@@ -3,6 +3,8 @@ package main
 import (
 	"github.com/fatih/color"
 	"testing"
+	"strings"
+	"os"
 )
 
 func TestNewSerialStream(t *testing.T) {
@@ -54,4 +56,54 @@ func TestPrint(t *testing.T) {
 		PrintFormat("Hello World!", testStream)
 		PrintFormat("Hello World!", testStream2)
 	}
+}
+
+
+func TestLoggingVerbose(t *testing.T) {
+
+	if testing.Verbose() {
+
+		PrintLogging("Hello World!")
+
+
+		testColor := color.FgRed
+		testName := "COMX"
+		testStream := NewSerialStream(testName, testColor)
+
+		PrintSerialLogging("Hello World!", testStream)
+	}
+}
+
+func TestLogging(t *testing.T) {
+
+	testInput, testOutput, _ := os.Pipe()
+
+	defaultStdout := os.Stdout
+	os.Stdout = testOutput
+
+	testData := make([]byte, 25)
+
+	t.Run("LoggingTest", func(t *testing.T) {
+		PrintLogging("Hello World!")
+
+		testInput.Read(testData)
+		if !strings.Contains(string(testData), "[log]  Hello World!\n") {
+			t.Errorf("expect Hello World! but got %s", testData)
+		}
+	})
+
+	testColor := color.FgRed
+	testName := "COMX"
+	testStream := NewSerialStream(testName, testColor)
+
+	t.Run("LoggingSerialTest", func(t *testing.T) {
+		PrintSerialLogging("Hello World!", testStream)
+
+		testInput.Read(testData)
+		if !strings.Contains(string(testData), "[COMX] Hello World!\n") {
+			t.Errorf("expect [COMX] Hello World! but got %s", testData)
+		}
+	})
+
+	os.Stdout = defaultStdout
 }

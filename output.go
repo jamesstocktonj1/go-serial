@@ -40,7 +40,7 @@ func PrintFormat(data string, serial SerialStream) {
 func PrintLogging(log string) {
 
 	color.Set(color.FgYellow)
-	fmt.Print("[log] ")
+	fmt.Print("[log]  ")
 
 	color.Unset()
 	fmt.Println(log)
@@ -50,7 +50,7 @@ func PrintSerialLogging(log string, serial SerialStream) {
 	forName := FormatSerialName(serial)
 
 	color.Set(color.FgYellow)
-	fmt.Printf("[%s] ", forName)
+	fmt.Printf("%s ", forName)
 
 	color.Unset()
 	fmt.Println(log)
