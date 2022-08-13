@@ -1,9 +1,15 @@
 package main
 
 import (
-	//"fmt"
+	"fmt"
+	"os"
+	//"flag"
 )
 
 func main() {
-	ListSerialPorts()
+
+	flagSet := HandleCommandParsing()
+	flagSet.Parse(os.Args[1:])
+
+	fmt.Println(*port)
 }

@@ -1,12 +1,11 @@
 package main
 
 import (
-	"testing"
 	"github.com/fatih/color"
+	"testing"
 )
 
-
-func TestNewSerialStream(t *testing.T)  {
+func TestNewSerialStream(t *testing.T) {
 	testColor := color.FgRed
 	testName := "COMX"
 
@@ -21,7 +20,6 @@ func TestNewSerialStream(t *testing.T)  {
 	}
 }
 
-
 func TestFormatSerialName(t *testing.T) {
 	testColor := color.FgRed
 	testName := "COMX"
@@ -35,19 +33,15 @@ func TestFormatSerialName(t *testing.T) {
 	}
 }
 
-
 func TestFormatEndLine(t *testing.T) {
-	
+
 }
-
-
 
 func TestPrint(t *testing.T) {
 
 	if testing.Verbose() {
 
 		PrintSimple("Hello World!")
-
 
 		testColor := color.FgRed
 		testName := "COMX"

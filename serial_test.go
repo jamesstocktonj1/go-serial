@@ -4,10 +4,9 @@ import (
 	"testing"
 )
 
-
 func TestIsSerialPort(t *testing.T) {
 
-	testPorts := []string {"COM4", "COM5", "COM7", "COM10"}
+	testPorts := []string{"COM4", "COM5", "COM7", "COM10"}
 
 	testPort := "COM4"
 	testAvailable := IsSerialPort(testPort, testPorts)

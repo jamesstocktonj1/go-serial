@@ -6,8 +6,6 @@ import (
 	"go.bug.st/serial/enumerator"
 )
 
-
-
 func ListSerialPorts() []string {
 
 	ports, err := enumerator.GetDetailedPortsList()
@@ -20,7 +18,7 @@ func ListSerialPorts() []string {
 		fmt.Println("No Serial Devices")
 	}
 
-	var portList []string;
+	var portList []string
 
 	for _, port := range ports {
 		fmt.Printf("%v\n", port.Name)
@@ -30,11 +28,10 @@ func ListSerialPorts() []string {
 	return portList
 }
 
-
 func IsSerialPort(port string, ports []string) bool {
 
 	for _, p := range ports {
-		
+
 		if p == port {
 			return true
 		}
