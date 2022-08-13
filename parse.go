@@ -17,6 +17,7 @@ func HandleCommandParsing() *flag.FlagSet {
 	parity = flagSet.String("parity", "None", "select parity type [None, Odd Even, Mark, Space]")
 
 	verbose = flagSet.Bool("v", false, "verbose output e.g. connect/disconnect")
+	listPorts = flagSet.Bool("ls", false, "list available ports")
 
 	return flagSet
 }

@@ -7,4 +7,5 @@ var (
 	stopBits *int
 	parity *string
 	verbose *bool
+	listPorts *bool
 )

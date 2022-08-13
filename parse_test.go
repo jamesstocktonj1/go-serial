@@ -36,6 +36,10 @@ func TestHandleCommandParsing(t *testing.T) {
 		if *verbose != false {
 			t.Errorf("default verbose value expected false but got %t", *verbose)
 		}
+
+		if *listPorts != false {
+			t.Errorf("default list port value expected false but got %t", *listPorts)
+		}
 	})
 
 
@@ -70,7 +74,21 @@ func TestHandleCommandParsing(t *testing.T) {
 	t.Run("ParityTest", func(t *testing.T) {
 		testFlagSet.Parse([]string{"-parity", "Odd"})
 		if *parity != "Odd" {
-			t.Errorf("expected parity Odd but got %s", *parity)
+			t.Errorf("expected parity value Odd but got %s", *parity)
+		}
+	})
+
+	t.Run("Verbose", func(t *testing.T) {
+		testFlagSet.Parse([]string{"-v"})
+		if *verbose != true {
+			t.Errorf("expected verbose value true but got %t", *verbose)
+		}
+	})
+
+	t.Run("ListPortTest", func(t *testing.T) {
+		testFlagSet.Parse([]string{"-ls"})
+		if *listPorts != true {
+			t.Errorf("expected port list value true but got %t", *listPorts)
 		}
 	})
 }
