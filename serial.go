@@ -60,7 +60,7 @@ func OpenSerialPort(flagSet *flag.FlagSet) serial.Port {
 
 	if *listPorts {
 		FormatListSerialPort()
-		os.Exit(3)
+		return nil
 	}
 	
 	if *defaultPort {
@@ -68,7 +68,7 @@ func OpenSerialPort(flagSet *flag.FlagSet) serial.Port {
 
 		if len(portsList) == 0 {
 			fmt.Println("Error: No serial devices connected")
-			os.Exit(1)
+			return nil
 		} else {
 			*port = portsList[0]
 		}
@@ -77,7 +77,7 @@ func OpenSerialPort(flagSet *flag.FlagSet) serial.Port {
 
 		if len(flagSet.Args()) == 0 {
 			fmt.Println("Error: No serial device specified")
-			os.Exit(1)
+			return nil
 		}
 		
 		*port = flagSet.Args()[0]
@@ -90,7 +90,7 @@ func OpenSerialPort(flagSet *flag.FlagSet) serial.Port {
 			} else {
 				fmt.Println("/dev/tty")
 			}
-			os.Exit(1)
+			return nil
 		}
 	}
 
@@ -99,7 +99,7 @@ func OpenSerialPort(flagSet *flag.FlagSet) serial.Port {
 
 	if err != nil {
 		fmt.Println("Error: Failed to open serial port")
-		os.Exit(1)
+		return nil
 	}
 
 	return localPort
