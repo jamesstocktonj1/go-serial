@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
-	//"go.bug.st/serial"
+	"go.bug.st/serial"
 	"go.bug.st/serial/enumerator"
+	"os"
+	"flag"
 )
 
 func ListSerialPorts() []string {
@@ -49,7 +51,7 @@ func IsSerialPort(port string, ports []string) bool {
 }
 
 
-func OpenSerialPort(flagSet *flag.FlagSet) {
+func OpenSerialPort(flagSet *flag.FlagSet) serial.Port {
 
 	if *listPorts {
 		FormatListSerialPort()
@@ -86,4 +88,14 @@ func OpenSerialPort(flagSet *flag.FlagSet) {
 			os.Exit(1)
 		}
 	}
+
+	var localSetting = serial.Mode{*baud, *dataBits, serial.NoParity, serial.OneStopBit}
+	localPort, err := serial.Open(*port, &localSetting)
+
+	if err != nil {
+		fmt.Println("Error: Failed to open serial port")
+		os.Exit(1)
+	}
+
+	return localPort
 }
