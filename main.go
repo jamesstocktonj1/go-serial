@@ -13,7 +13,7 @@ func main() {
 
 	if *listPorts {
 		FormatListSerialPort()
-		os.Exit(0)
+		os.Exit(3)
 	}
 	
 	if *defaultPort {
