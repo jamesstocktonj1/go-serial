@@ -11,7 +11,7 @@ Usage of Go Serial:
   -d    select Default Serial Port
   -data int
         select number of data bits (default 8)
-  -ls   list available ports
+  -l    list available ports
   -parity string
         select parity type [None, Odd Even, Mark, Space] (default "None")
   -stop int

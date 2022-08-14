@@ -79,7 +79,7 @@ func TestHandleCommandParsing(t *testing.T) {
 	})
 
 	t.Run("ListPortTest", func(t *testing.T) {
-		testFlagSet.Parse([]string{"-ls"})
+		testFlagSet.Parse([]string{"-l"})
 		if *listPorts != true {
 			t.Errorf("expected port list value true but got %t", *listPorts)
 		}
