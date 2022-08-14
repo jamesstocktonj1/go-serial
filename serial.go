@@ -34,7 +34,12 @@ func FormatListSerialPort() {
 
 	fmt.Println("Ports:")
 	for _, port := range ports {
-		fmt.Printf("  %s\n", port.Name)
+
+		portUsb := ""
+		if port.IsUSB {
+			portUsb = "USB"
+		}
+		fmt.Printf("  %s\t\t%s\n", port.Name, portUsb)
 	}
 }
 
