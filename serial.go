@@ -14,18 +14,26 @@ func ListSerialPorts() []string {
 		fmt.Println("Error Getting Serial Ports")
 	}
 
-	if len(ports) == 0 {
-		fmt.Println("No Serial Devices")
-	}
-
 	var portList []string
-
 	for _, port := range ports {
-		fmt.Printf("%v\n", port.Name)
 		portList = append(portList, port.Name)
 	}
 
 	return portList
+}
+
+func FormatListSerialPort() {
+	
+	ports, err := enumerator.GetDetailedPortsList()
+
+	if err != nil {
+		fmt.Println("Error Getting Serial Ports")
+	}
+
+	fmt.Println("Ports:")
+	for _, port := range ports {
+		fmt.Printf("  %s\n", port.Name)
+	}
 }
 
 func IsSerialPort(port string, ports []string) bool {
