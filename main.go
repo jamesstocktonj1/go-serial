@@ -19,7 +19,12 @@ func main() {
 		serialPort = ser
 	}
 
-	serialPort.Close()
+	serialSync.Add(1)
+	go SerialInputHandler(serialPort)
+
+	serialSync.Wait()
+
+	//serialPort.Close()
 
 	fmt.Printf("Serial Port: %s\n", *port)
 }
