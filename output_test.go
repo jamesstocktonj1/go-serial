@@ -70,7 +70,7 @@ func TestPrint(t *testing.T) {
 		PrintSimple("Hello World!")
 
 		testInput.Read(testData)
-		if !strings.Contains(string(testData), "Hello World!\n") {
+		if !strings.Contains(string(testData), "Hello World!") {
 			t.Errorf("expect Hello World! but got %s", testData)
 		}
 	})
@@ -83,7 +83,7 @@ func TestPrint(t *testing.T) {
 		PrintFormat("Hello World!", testStream)
 
 		testInput.Read(testData)
-		if !strings.Contains(string(testData), "[COMX] Hello World!\n") {
+		if !strings.Contains(string(testData), "[COMX] Hello World!") {
 			t.Errorf("expect [COMX] Hello World! but got %s", testData)
 		}
 	})
