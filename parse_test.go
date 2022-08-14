@@ -14,10 +14,6 @@ func TestHandleCommandParsing(t *testing.T) {
 		//test default state
 		testFlagSet.Parse([]string{})
 
-		if *port != "COMX" {
-			t.Errorf("default port value expected COMX but got %s", *port)
-		}
-
 		if *baud != 9600 {
 			t.Errorf("default baud value expected 9600 but got %d", *baud)
 		}
@@ -44,13 +40,6 @@ func TestHandleCommandParsing(t *testing.T) {
 
 		if *defaultPort != false {
 			t.Errorf("default port select flag value expected false but got %t", *defaultPort)
-		}
-	})
-
-	t.Run("PortTest", func(t *testing.T) {
-		testFlagSet.Parse([]string{"-com", "COM5"})
-		if *port != "COM5" {
-			t.Errorf("expected port value COM5 but got %s", *port)
 		}
 	})
 
@@ -90,7 +79,7 @@ func TestHandleCommandParsing(t *testing.T) {
 	})
 
 	t.Run("ListPortTest", func(t *testing.T) {
-		testFlagSet.Parse([]string{"-ls"})
+		testFlagSet.Parse([]string{"-l"})
 		if *listPorts != true {
 			t.Errorf("expected port list value true but got %t", *listPorts)
 		}

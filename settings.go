@@ -1,5 +1,9 @@
 package main
 
+import (
+	"go.bug.st/serial"
+)
+
 var (
 	port        *string
 	baud        *int
@@ -9,4 +13,5 @@ var (
 	verbose     *bool
 	listPorts   *bool
 	defaultPort *bool
+	serialPort  serial.Port
 )
