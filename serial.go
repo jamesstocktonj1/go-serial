@@ -6,7 +6,7 @@ import (
 	"go.bug.st/serial/enumerator"
 	"os"
 	"flag"
-	"bufio"
+	//"bufio"
 )
 
 func ListSerialPorts() []string {
@@ -135,12 +135,14 @@ func SerialInputHandler(ser serial.Port) {
 func SerialOutputHandler(ser serial.Port) {
 	defer serialSync.Done()
 
-	consoleReader := bufio.NewReader(os.Stdin)
+	//consoleReader := bufio.NewReader(os.Stdin)
 	buff := make([]byte, 100)
 
 	
 	for {
-		n, err := consoleReader.Read(buff)
+		n, err := os.Stdin.Read(buff)
+		//buff, err := consoleReader.ReadByte()
+		PrintLogging(string(buff))
 
 		if err != nil {
 			PrintLogging("Error: Unable to read console terminal")
