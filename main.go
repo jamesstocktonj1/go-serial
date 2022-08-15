@@ -19,8 +19,9 @@ func main() {
 		serialPort = ser
 	}
 
-	serialSync.Add(1)
+	serialSync.Add(2)
 	go SerialInputHandler(serialPort)
+	go SerialOutputHandler(serialPort)
 
 	serialSync.Wait()
 
