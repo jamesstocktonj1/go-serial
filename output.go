@@ -19,7 +19,7 @@ func FormatSerialName(serial SerialStream) string {
 }
 
 func FormatEndLine() string {
-	return "\n"
+	return ""
 }
 
 func PrintSimple(data string) {

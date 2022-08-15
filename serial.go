@@ -104,3 +104,28 @@ func OpenSerialPort(flagSet *flag.FlagSet) serial.Port {
 
 	return localPort
 }
+
+func SerialInputHandler(ser serial.Port) {
+	defer serialSync.Done()
+	
+	ser.ResetInputBuffer()
+	buff := make([]byte, 100)
+
+	for {
+
+		n, err := ser.Read(buff)
+
+		if err != nil {
+			PrintLogging("Error: Unable to read Serial")
+		}
+
+		if n == 0 {
+			fmt.Println("\nEOF")
+			break
+		}
+
+		PrintSimple(string(buff[:n]))
+	}
+
+	ser.Close()
+}

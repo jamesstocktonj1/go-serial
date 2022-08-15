@@ -2,6 +2,7 @@ package main
 
 import (
 	"go.bug.st/serial"
+	"sync"
 )
 
 var (
@@ -14,4 +15,5 @@ var (
 	listPorts   *bool
 	defaultPort *bool
 	serialPort  serial.Port
+	serialSync  sync.WaitGroup
 )
