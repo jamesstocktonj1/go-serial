@@ -142,7 +142,7 @@ func SerialOutputHandler(ser serial.Port) {
 	for {
 		n, err := os.Stdin.Read(buff)
 		//buff, err := consoleReader.ReadByte()
-		PrintLogging(string(buff))
+		PrintLogging(string(buff[:n-1]))
 
 		if err != nil {
 			PrintLogging("Error: Unable to read console terminal")
@@ -153,7 +153,7 @@ func SerialOutputHandler(ser serial.Port) {
 		}
 
 
-		n, err = ser.Write(buff[:n])
+		n, err = ser.Write(buff[:n-1])
 
 		if err != nil {
 			PrintLogging("Error: Unable to write serial")
