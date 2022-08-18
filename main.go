@@ -26,7 +26,7 @@ func main() {
 
 	serialSync.Wait()
 
-	//serialPort.Close()
+	serialPort.Close()
 
 	fmt.Printf("Serial Port: %s\n", *port)
 }
