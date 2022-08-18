@@ -18,3 +18,14 @@ Usage of Go Serial:
         select number of stop bits (default 1)
   -v    verbose output e.g. connect/disconnect
 ```
+
+## Installation
+To create an executable run the following command: 
+```
+go build 
+```
+
+To install go-serial to the GOPATH run:
+```
+go install
+```
