@@ -59,6 +59,11 @@ func IsSerialPort(port string, ports []string) bool {
 
 func OpenSerialPort(flagSet *flag.FlagSet) serial.Port {
 
+	if *printVersion {
+		fmt.Printf("Version: %s\n", version)
+		return nil
+	}
+
 	if *listPorts {
 		FormatListSerialPort()
 		return nil

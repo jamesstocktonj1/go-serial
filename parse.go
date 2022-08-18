@@ -21,6 +21,7 @@ func HandleCommandParsing() *flag.FlagSet {
 	verbose = flagSet.Bool("v", false, "verbose output e.g. connect/disconnect")
 	listPorts = flagSet.Bool("l", false, "list available ports")
 	defaultPort = flagSet.Bool("d", false, "select Default Serial Port")
+	printVersion = flagSet.Bool("version", false, "print software version")
 
 	return flagSet
 }
