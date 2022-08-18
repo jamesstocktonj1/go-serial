@@ -148,7 +148,7 @@ func SerialOutputHandler(ser serial.Port) {
 			PrintLogging("Error: Unable to read console terminal")
 		}
 
-		if n == 0 {
+		if n < 3 {
 			PrintLogging("Error: No data read from console")
 		}
 
