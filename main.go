@@ -3,30 +3,30 @@ package main
 import (
 	"fmt"
 	"os"
-	//"flag"
+	"go-serial/parse"
+	"go-serial/serial"
+	"go-serial/settings"
 )
-
-const version = "0.1.0"
 
 func main() {
 
-	flagSet := HandleCommandParsing()
+	flagSet := parse.HandleCommandParsing()
 	flagSet.Parse(os.Args[1:])
 
-	ser := OpenSerialPort(flagSet)
+	ser := serial.OpenSerialPort(flagSet)
 	if ser == nil {
 		os.Exit(1)
 	} else {
-		serialPort = ser
+		settings.SerialPort = ser
 	}
 
-	serialSync.Add(2)
-	go SerialInputHandler(serialPort)
-	go SerialOutputHandler(serialPort)
+	settings.SerialSync.Add(2)
+	go serial.SerialInputHandler(settings.SerialPort)
+	go serial.SerialOutputHandler(settings.SerialPort)
 
-	serialSync.Wait()
+	settings.SerialSync.Wait()
 
-	serialPort.Close()
+	settings.SerialPort.Close()
 
-	fmt.Printf("Serial Port: %s\n", *port)
+	fmt.Printf("Serial Port: %s\n", *settings.Port)
 }
