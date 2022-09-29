@@ -1,32 +1,21 @@
 package main
 
-import (
-	"fmt"
-	"os"
-	"go-serial/parse"
-	"go-serial/serial"
-	"go-serial/settings"
+import ( //"os"
+	//"go-serial/parse"
+	//"go-serial/serial"
+	//"go-serial/settings"
+	"go-serial/screen"
 )
 
 func main() {
 
-	flagSet := parse.HandleCommandParsing()
-	flagSet.Parse(os.Args[1:])
+	screen.InitScreen()
+	defer screen.CloseScreen()
 
-	ser := serial.OpenSerialPort(flagSet)
-	if ser == nil {
-		os.Exit(1)
-	} else {
-		settings.SerialPort = ser
-	}
+	screen.SetSize(45, 35)
 
-	settings.SerialSync.Add(2)
-	go serial.SerialInputHandler(settings.SerialPort)
-	go serial.SerialOutputHandler(settings.SerialPort)
+	screen.CreatePorts([]string {"COM1", "COM2"}, true)
+	screen.Update()
 
-	settings.SerialSync.Wait()
-
-	settings.SerialPort.Close()
-
-	fmt.Printf("Serial Port: %s\n", *settings.Port)
+	screen.MainLoop()
 }
