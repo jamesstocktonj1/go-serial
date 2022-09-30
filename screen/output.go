@@ -23,8 +23,13 @@ func CreateOutput(portName string, index int) OutputParagraph {
 
 	p.SetRect((screen_width/port_count) * index, pStart, (screen_width / port_count) * (index+1), screen_height-INPUT_HEIGHT)
 
+	pWidth := screen_width / port_count
+	pHeight := screen_height - (INPUT_HEIGHT+pStart)
+
 	return OutputParagraph{
 		Paragraph: p,
+		Width: pWidth,
+		Height: pHeight,
 		Open: true,
 	}
 }
@@ -52,8 +57,35 @@ func (p *OutputParagraph) SetText(data string) {
 	p.Render()
 }
 
+func (p *OutputParagraph) ParseText() {
+	lineArray := []string {}
+	temp := ""
+	
+	for _, c := range p.Paragraph.Text {
+		temp += string(c) 
+		if c == '\n' {
+			lineArray = append(lineArray, temp)
+			temp = ""
+		}
+	}
+	lineArray = append(lineArray, temp)
+
+	if len(lineArray) > (p.Height-2) {
+		lineArray = lineArray[len(lineArray)-(p.Height-2):]
+	} else {
+		return
+	}
+
+	p.Paragraph.Text = ""
+	for _, l := range lineArray {
+		p.Paragraph.Text += l
+	}
+}
+
 func (p *OutputParagraph) AddText(data string) {
 	p.Paragraph.Text += data
+
+	p.ParseText()
 	p.Render()
 }
 
