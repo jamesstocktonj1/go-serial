@@ -23,17 +23,16 @@ func CreateInput() InputParagraph {
 
 func (p *InputParagraph) UpdateInput(e ui.Event) {
 	switch e.ID {
-	case "<C-c>":
-	case "<Resize>":
-	case "<Enter>":
 	case "<C-<Backspace>>":
-		if len(p.Paragraph.Text) > 1 {
+		if len(p.Paragraph.Text) > 0 {
 			p.Paragraph.Text = p.Paragraph.Text[:len(p.Paragraph.Text)-1]
 		}
 	case "<Space>":
 		p.Paragraph.Text += " "
 	default:
-		p.Paragraph.Text += e.ID
+		if len(e.ID) == 1 {
+			p.Paragraph.Text += e.ID
+		}
 	}
 }
 
