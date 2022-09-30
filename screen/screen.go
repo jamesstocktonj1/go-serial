@@ -9,6 +9,8 @@ import (
 const (
 	MAX_WIDTH      = 50
 	MAX_HEIGHT     = 1000
+	DEFAULT_WIDTH  = 100
+	DEFUALT_HEIGHT = 35
 	INPUT_HEIGHT   = 3
 	LOGGING_HEIGHT = 4
 )
