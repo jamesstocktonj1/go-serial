@@ -81,15 +81,13 @@ func MainLoop() {
 			SelectPort(port_select + 1)
 		case "<Left>":
 			SelectPort(port_select - 1)
+		case "<Enter>":
+			Outputs[port_select].AddText(Input.ReadBuffer())
 		case "<Resize>":
 			Update()
 		default:
 			Input.UpdateInput(e)
 			Update()
-		}
-
-		if Input.Send {
-			Outputs[port_select].AddText(Input.ReadBuffer())
 		}
 	}
 }

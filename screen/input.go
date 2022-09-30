@@ -8,7 +8,6 @@ import (
 type InputParagraph struct {
 	Paragraph *widgets.Paragraph
 	Width     int
-	Send      bool
 }
 
 func CreateInput() InputParagraph {
@@ -26,14 +25,13 @@ func (p *InputParagraph) UpdateInput(e ui.Event) {
 	switch e.ID {
 	case "<C-c>":
 	case "<Resize>":
+	case "<Enter>":
 	case "<C-<Backspace>>":
 		if len(p.Paragraph.Text) > 1 {
 			p.Paragraph.Text = p.Paragraph.Text[:len(p.Paragraph.Text)-1]
 		}
 	case "<Space>":
 		p.Paragraph.Text += " "
-	case "<Enter>":
-		p.Send = true
 	default:
 		p.Paragraph.Text += e.ID
 	}
@@ -41,7 +39,6 @@ func (p *InputParagraph) UpdateInput(e ui.Event) {
 
 func (p *InputParagraph) ReadBuffer() string {
 	buf := p.Paragraph.Text + "\n"
-	p.Send = false
 	p.Paragraph.Text = ""
 	p.Render()
 
