@@ -50,13 +50,13 @@ func CreatePorts(ports []string, verbose bool) {
 
 func Update() {
 	if screen_log {
-		logger.RenderLogging()
+		logger.Render()
 	}
 
 	for _, p := range outputs {
-		p.RenderOutput()
+		p.Render()
 	}
-	input.RenderInput()
+	input.Render()
 }
 
 func MainLoop() {
@@ -67,6 +67,7 @@ func MainLoop() {
 		case "<C-c>":
 			log.Fatal()
 		case "<Resize>":
+			Update()
 		default:
 			input.UpdateInput(e)
 			Update()

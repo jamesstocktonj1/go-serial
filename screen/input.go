@@ -43,10 +43,11 @@ func (p *InputParagraph) ReadBuffer() string {
 	buf := p.Paragraph.Text + "\n"
 	p.Send = false
 	p.Paragraph.Text = ""
+	p.Render()
 
 	return buf
 }
 
-func (p *InputParagraph) RenderInput() {
+func (p *InputParagraph) Render() {
 	ui.Render(p.Paragraph)
 }

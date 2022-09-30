@@ -24,9 +24,9 @@ func CreateLogging() LoggingParagraph {
 
 func (p *LoggingParagraph) SetText(data string) {
 	p.Paragraph.Text = data
-	p.RenderLogging()
+	p.Render()
 }
 
-func (p *LoggingParagraph) RenderLogging() {
+func (p *LoggingParagraph) Render() {
 	ui.Render(p.Paragraph)
 }

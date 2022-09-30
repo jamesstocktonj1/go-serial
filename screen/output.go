@@ -29,14 +29,14 @@ func CreateOutput(portName string, index int) OutputParagraph {
 
 func (p *OutputParagraph) SetText(data string) {
 	p.Paragraph.Text = data
-	p.RenderOutput()
+	p.Render()
 }
 
 func (p *OutputParagraph) AddText(data string) {
 	p.Paragraph.Text += data
-	p.RenderOutput()
+	p.Render()
 }
 
-func (p *OutputParagraph) RenderOutput() {
+func (p *OutputParagraph) Render() {
 	ui.Render(p.Paragraph)
 }
