@@ -2,22 +2,48 @@ package serial
 
 import (
 	"fmt"
+	"go-serial/screen"
 	"go.bug.st/serial"
-	"go.bug.st/serial/enumerator"
-	"os"
-	"flag"
-	"go-serial/settings"
-	"go-serial/parse"
-	"go-serial/output"
-	//"bufio"
 )
 
+const (
+	//DEFAULT_SETTINGS = serial.Mode{BaudRate: 9600}
+	BUFFER_SIZE = 100
+)
+
+type SerialPort struct {
+	Port         serial.Port
+	PortName     string
+	PortSettings serial.Mode
+	Online 		 bool
+}
+
+func CreateSerial(portName string) SerialPort {
+	p := SerialPort {
+		PortName: portName,
+		Online: true,
+	}
+
+	var err error
+	p.Port, err = serial.Open(p.PortName, &serial.Mode{BaudRate: 9600})
+	if err != nil {
+		errorMsg := fmt.Sprintf("Could not open port %s", p.PortName)
+		screen.Logger.Error(errorMsg)
+		p.Online = false
+	}
+
+	p.Port.ResetInputBuffer()
+	p.Port.ResetOutputBuffer()
+
+	return p
+}
+
+/*
 func ListSerialPorts() []string {
 
 	ports, err := enumerator.GetDetailedPortsList()
-
 	if err != nil {
-		fmt.Println("Error Getting Serial Ports")
+		screen.Logger.Error("Error getting port list")
 	}
 
 	var portList []string
@@ -27,144 +53,36 @@ func ListSerialPorts() []string {
 
 	return portList
 }
+*/
 
-func FormatListSerialPort() {
-	
-	ports, err := enumerator.GetDetailedPortsList()
+func (p *SerialPort) Read() string {
+	buff := make([]byte, BUFFER_SIZE)
 
-	if err != nil {
-		fmt.Println("Error Getting Serial Ports")
-	}
-
-	fmt.Println("Ports:")
-	for _, port := range ports {
-
-		portUsb := ""
-		if port.IsUSB {
-			portUsb = "USB"
-		}
-		fmt.Printf("  %s\t\t%s\n", port.Name, portUsb)
-	}
-}
-
-func IsSerialPort(port string, ports []string) bool {
-
-	for _, p := range ports {
-
-		if p == port {
-			return true
-		}
-	}
-
-	return false
-}
-
-
-func OpenSerialPort(flagSet *flag.FlagSet) serial.Port {
-
-	if *settings.PrintVersion {
-		fmt.Printf("Version: %s\n", settings.Version)
-		return nil
-	}
-
-	if *settings.ListPorts {
-		FormatListSerialPort()
-		return nil
-	}
-	
-	if *settings.DefaultPort {
-		portsList := ListSerialPorts()
-
-		if len(portsList) == 0 {
-			fmt.Println("Error: No serial devices connected")
-			return nil
-		} else {
-			*settings.Port = portsList[0]
-		}
-
+	n, err := p.Port.Read(buff)
+	if err != nil || n == 0 {
+		errorMsg := fmt.Sprintf("Could not read port %s", p.PortName)
+		screen.Logger.Error(errorMsg)
+		p.Online = false
+		return ""
 	} else {
-
-		if len(flagSet.Args()) == 0 {
-			fmt.Println("Error: No serial device specified")
-			return nil
-		}
-		
-		*settings.Port = flagSet.Args()[0]
-
-		if !parse.ParseComPort() {
-			fmt.Print("Error: Invalid serial device, device should take form ")
-
-			if os.Geteuid() == -1 {
-				fmt.Println("COMx")
-			} else {
-				fmt.Println("/dev/tty")
-			}
-			return nil
-		}
+		p.Online = true
 	}
 
-	var localSetting = serial.Mode{*settings.Baud, *settings.DataBits, serial.NoParity, serial.OneStopBit}
-	localPort, err := serial.Open(*settings.Port, &localSetting)
+	return string(buff[:n])
+}
 
+func (p *SerialPort) Write(data string) {
+	_, err := p.Port.Write([]byte(data))
 	if err != nil {
-		fmt.Println("Error: Failed to open serial port")
-		return nil
+		errorMsg := fmt.Sprintf("Could not write port %s", p.PortName)
+		screen.Logger.Error(errorMsg)
+		p.Online = false
+	} else {
+		p.Online = true
 	}
-
-	return localPort
 }
 
-func SerialInputHandler(ser serial.Port) {
-	defer settings.SerialSync.Done()
-	
-	ser.ResetInputBuffer()
-	buff := make([]byte, 100)
-
-	for {
-
-		n, err := ser.Read(buff)
-
-		if err != nil {
-			output.PrintLogging("Error: Unable to read Serial")
-			break
-		}
-
-		if n == 0 {
-			fmt.Println("\nEOF")
-			break
-		}
-
-		output.PrintSimple(string(buff[:n]))
-	}
-
-	ser.Close()
-}
-
-func SerialOutputHandler(ser serial.Port) {
-	defer settings.SerialSync.Done()
-
-	//consoleReader := bufio.NewReader(os.Stdin)
-	buff := make([]byte, 100)
-
-	
-	for {
-		n, err := os.Stdin.Read(buff)
-		//buff, err := consoleReader.ReadByte()
-		output.PrintLogging(string(buff[:n-1]))
-
-		if err != nil {
-			output.PrintLogging("Error: Unable to read console terminal")
-		}
-
-		if n < 3 {
-			output.PrintLogging("Error: No data read from console")
-		}
-
-
-		n, err = ser.Write(buff[:n-1])
-
-		if err != nil {
-			output.PrintLogging("Error: Unable to write serial")
-		}
-	}
+func (p *SerialPort) Close() {
+	p.Port.Close()
+	p.Online = false
 }
