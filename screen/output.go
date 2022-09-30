@@ -9,6 +9,7 @@ type OutputParagraph struct {
 	Paragraph *widgets.Paragraph
 	Width     int
 	Height    int
+	Open 	  bool
 }
 
 func CreateOutput(portName string, index int) OutputParagraph {
@@ -24,6 +25,25 @@ func CreateOutput(portName string, index int) OutputParagraph {
 
 	return OutputParagraph{
 		Paragraph: p,
+		Open: true,
+	}
+}
+
+func (p *OutputParagraph) Select(s bool) {
+	if s {
+		p.Paragraph.TitleStyle.Fg = ui.ColorWhite
+	} else {
+		p.SetAvailable(p.Open)
+	}
+	p.Render()
+}
+
+func (p *OutputParagraph) SetAvailable(s bool) {
+	p.Open = s
+	if s {
+		p.Paragraph.TitleStyle.Fg = ui.ColorGreen
+	} else {
+		p.Paragraph.TitleStyle.Fg = ui.ColorRed
 	}
 }
 

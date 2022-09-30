@@ -22,9 +22,15 @@ func CreateLogging() LoggingParagraph {
 	}
 }
 
-func (p *LoggingParagraph) SetText(data string) {
+func (p *LoggingParagraph) Write(data string) {
 	p.Paragraph.Text = data
+	p.Paragraph.TextStyle.Fg = ui.ColorWhite
 	p.Render()
+}
+
+func (p *LoggingParagraph) Error(data string) {
+	p.Paragraph.Text = data
+	p.Paragraph.TextStyle.Fg = ui.ColorYellow
 }
 
 func (p *LoggingParagraph) Render() {

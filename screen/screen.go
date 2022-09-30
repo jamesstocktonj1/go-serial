@@ -17,10 +17,11 @@ var (
 	screen_width  = 0
 	screen_height = 0
 	port_count    = 0
+	port_select	  = 0
 	screen_log    = false
-	logger	LoggingParagraph
-	outputs	[]OutputParagraph
-	input 	InputParagraph
+	Logger	LoggingParagraph
+	Outputs	[]OutputParagraph
+	Input 	InputParagraph
 )
 
 func InitScreen() {
@@ -41,22 +42,30 @@ func CreatePorts(ports []string, verbose bool) {
 	port_count = len(ports)
 	screen_log = verbose
 
-	logger = CreateLogging()
+	Logger = CreateLogging()
 	for i, p := range ports {
-		outputs = append(outputs, CreateOutput(p, i))
+		Outputs = append(Outputs, CreateOutput(p, i))
 	}
-	input = CreateInput()
+	Input = CreateInput()
+}
+
+func SelectPort(index int) {
+	port_select = index % port_count
+
+	for i, p := range Outputs {
+		p.Select(i == port_select)
+	}
 }
 
 func Update() {
 	if screen_log {
-		logger.Render()
+		Logger.Render()
 	}
 
-	for _, p := range outputs {
+	for _, p := range Outputs {
 		p.Render()
 	}
-	input.Render()
+	Input.Render()
 }
 
 func MainLoop() {
@@ -66,15 +75,19 @@ func MainLoop() {
 		switch e.ID {
 		case "<C-c>":
 			log.Fatal()
+		case "<Right>":
+			SelectPort(port_select + 1)
+		case "<Left>":
+			SelectPort(port_select - 1)
 		case "<Resize>":
 			Update()
 		default:
-			input.UpdateInput(e)
+			Input.UpdateInput(e)
 			Update()
 		}
 
-		if input.Send {
-			outputs[0].AddText(input.ReadBuffer())
+		if Input.Send {
+			Outputs[port_select].AddText(Input.ReadBuffer())
 		}
 	}
 }
