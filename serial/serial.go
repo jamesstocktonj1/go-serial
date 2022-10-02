@@ -32,8 +32,10 @@ func CreateSerial(portName string) SerialPort {
 		p.Online = false
 	}
 
-	p.Port.ResetInputBuffer()
-	p.Port.ResetOutputBuffer()
+	if p.Online {
+		p.Port.ResetInputBuffer()
+		p.Port.ResetOutputBuffer()
+	}
 
 	return p
 }
@@ -56,6 +58,10 @@ func ListSerialPorts() []string {
 */
 
 func (p *SerialPort) Read() string {
+	if !p.Online {
+		return ""
+	}
+
 	buff := make([]byte, BUFFER_SIZE)
 
 	n, err := p.Port.Read(buff)
@@ -72,6 +78,10 @@ func (p *SerialPort) Read() string {
 }
 
 func (p *SerialPort) Write(data string) {
+	if !p.Online {
+		return
+	}
+
 	_, err := p.Port.Write([]byte(data))
 	if err != nil {
 		errorMsg := fmt.Sprintf("Could not write port %s", p.PortName)
@@ -83,6 +93,8 @@ func (p *SerialPort) Write(data string) {
 }
 
 func (p *SerialPort) Close() {
-	p.Port.Close()
-	p.Online = false
+	if p.Online {
+		p.Port.Close()
+		p.Online = false
+	}
 }
