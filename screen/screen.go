@@ -2,6 +2,7 @@ package screen
 
 import (
 	"log"
+	"time"
 
 	ui "github.com/gizak/termui/v3"
 )
@@ -71,8 +72,9 @@ func Update() {
 }
 
 func MainLoop() {
+	t := time.Tick(time.Millisecond)
 	uiEvents := ui.PollEvents()
-	for {
+	for range t{
 		e := <-uiEvents
 		switch e.ID {
 		case "<C-c>":

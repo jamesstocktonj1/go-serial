@@ -10,6 +10,7 @@ type OutputParagraph struct {
 	Width     int
 	Height    int
 	Open 	  bool
+	Selected  bool
 }
 
 func CreateOutput(portName string, index int) OutputParagraph {
@@ -30,22 +31,22 @@ func CreateOutput(portName string, index int) OutputParagraph {
 		Paragraph: p,
 		Width: pWidth,
 		Height: pHeight,
-		Open: true,
+		Open: false,
+		Selected: false,
 	}
 }
 
 func (p *OutputParagraph) Select(s bool) {
-	if s {
-		p.Paragraph.TitleStyle.Fg = ui.ColorWhite
-	} else {
-		p.SetAvailable(p.Open)
-	}
+	p.Selected = s
+	p.SetAvailable(p.Open)
 	p.Render()
 }
 
 func (p *OutputParagraph) SetAvailable(s bool) {
 	p.Open = s
-	if s {
+	if p.Selected {
+		p.Paragraph.TitleStyle.Fg = ui.ColorWhite
+	} else if s {
 		p.Paragraph.TitleStyle.Fg = ui.ColorGreen
 	} else {
 		p.Paragraph.TitleStyle.Fg = ui.ColorRed
