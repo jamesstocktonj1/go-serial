@@ -15,7 +15,7 @@ func CreateLogging() LoggingParagraph {
 	p := widgets.NewParagraph()
 	p.Title = "Logging"
 
-	p.SetRect(0, 0, screen_width, LOGGING_HEIGHT)
+	p.SetRect(0, 0, ScreenWidth, LOGGING_HEIGHT)
 
 	return LoggingParagraph{
 		Paragraph: p,

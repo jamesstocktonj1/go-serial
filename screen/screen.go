@@ -16,11 +16,11 @@ const (
 )
 
 var (
-	screen_width  = 0
-	screen_height = 0
-	port_count    = 0
-	port_select	  = 0
-	screen_log    = false
+	ScreenWidth  = 0
+	ScreenHeight = 0
+	PortCount    = 0
+	PortSelect	  = 0
+	ScreenLog    = false
 	Logger	LoggingParagraph
 	Outputs	[]OutputParagraph
 	Input 	InputParagraph
@@ -32,17 +32,17 @@ func InitScreen() {
 		log.Println(err)
 	}
 
-	screen_width, screen_height = ui.TerminalDimensions()
+	ScreenWidth, ScreenHeight = ui.TerminalDimensions()
 }
 
 func SetSize(width int, height int) {
-	screen_width = width
-	screen_height = height
+	ScreenWidth = width
+	ScreenHeight = height
 }
 
 func CreatePorts(ports []string, verbose bool) {
-	port_count = len(ports)
-	screen_log = verbose
+	PortCount = len(ports)
+	ScreenLog = verbose
 
 	Logger = CreateLogging()
 	for i, p := range ports {
@@ -52,15 +52,15 @@ func CreatePorts(ports []string, verbose bool) {
 }
 
 func SelectPort(index int) {
-	port_select = index % port_count
+	PortSelect = index % PortCount
 
 	for i, p := range Outputs {
-		p.Select(i == port_select)
+		p.Select(i == PortSelect)
 	}
 }
 
 func Update() {
-	if screen_log {
+	if ScreenLog {
 		Logger.Render()
 	}
 
@@ -77,12 +77,15 @@ func MainLoop() {
 		switch e.ID {
 		case "<C-c>":
 			log.Fatal()
+		case "<C-a>":
+			ScreenLog = !ScreenLog
+			Update()
 		case "<Right>":
-			SelectPort(port_select + 1)
+			SelectPort(PortSelect + 1)
 		case "<Left>":
-			SelectPort(port_select - 1)
+			SelectPort(PortSelect - 1)
 		case "<Enter>":
-			Outputs[port_select].AddText(Input.ReadBuffer())
+			Outputs[PortSelect].AddText(Input.ReadBuffer())
 		case "<Resize>":
 			Update()
 		default:

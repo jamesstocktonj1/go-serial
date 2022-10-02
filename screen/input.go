@@ -14,7 +14,7 @@ func CreateInput() InputParagraph {
 	p := widgets.NewParagraph()
 	p.Title = "Console"
 
-	p.SetRect(0, screen_height-INPUT_HEIGHT, screen_width, screen_height)
+	p.SetRect(0, ScreenHeight-INPUT_HEIGHT, ScreenWidth, ScreenHeight)
 
 	return InputParagraph{
 		Paragraph: p,

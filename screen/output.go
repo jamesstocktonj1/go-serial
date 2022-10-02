@@ -17,14 +17,14 @@ func CreateOutput(portName string, index int) OutputParagraph {
 	p.Title = portName
 
 	pStart := 0
-	if screen_log {
+	if ScreenLog {
 		pStart = LOGGING_HEIGHT
 	}
 
-	p.SetRect((screen_width/port_count) * index, pStart, (screen_width / port_count) * (index+1), screen_height-INPUT_HEIGHT)
+	p.SetRect((ScreenWidth/PortCount) * index, pStart, (ScreenWidth / PortCount) * (index+1), ScreenHeight-INPUT_HEIGHT)
 
-	pWidth := screen_width / port_count
-	pHeight := screen_height - (INPUT_HEIGHT+pStart)
+	pWidth := ScreenWidth / PortCount
+	pHeight := ScreenHeight - (INPUT_HEIGHT+pStart)
 
 	return OutputParagraph{
 		Paragraph: p,
